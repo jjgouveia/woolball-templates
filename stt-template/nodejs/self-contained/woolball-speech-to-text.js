@@ -50,7 +50,7 @@ class WoolBallSpeechToTextService {
 
     async transcribeFromFile(audioData, options = new TranscriptionOptions()) {
         const formData = new FormData();
-        formData.append('file', new Blob([audioData]), 'audio.mp3');
+        formData.append('audio', new Blob([audioData]), 'audio.mp3');
         formData.append('model', options.model);
         formData.append('language', options.language);
         formData.append('returnTimestamps', options.returnTimestamps.toString());
@@ -84,7 +84,7 @@ class WoolBallSpeechToTextService {
     }
 
     async getAvailableModels() {
-        const response = await fetch(`${this.baseUrl}/speech-to-text-models`, {
+        const response = await fetch(`${this.baseUrl}/models/speech-to-text`, {
             headers: this.headers
         });
 
