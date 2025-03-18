@@ -4,56 +4,49 @@ from woolball_speech_to_text import WoolBallSpeechToTextService, TranscriptionOp
 
 
 async def main():
-    service = WoolBallSpeechToTextService()  # Substitua por sua chave API real
+    service = WoolBallSpeechToTextService(api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjQ4M2I3YWYwLTQxNDQtNGUxZS05YTk2LTg3MmJlZjA1YWIxOSIsIm5iZiI6MTc0MjE1MTAwNiwiZXhwIjoxNzQyMTU0NjA2LCJpYXQiOjE3NDIxNTEwMDZ9.WRGeVaCB-VS1ZmBfZcdjSUoEreLa5-3nxL859c6xvag")
 
     try:
         url_en = "https://cdn.pixabay.com/download/audio/2022/03/10/audio_64f911f820.mp3?filename=hello-what-you-doing-42455.mp3"
         url_es = "http://pt.nemolanguageapps.com/audio/mp3/SPAFND1_0042.mp3"
 
-        mp3_file = "audio_pt.mp3"
-
-        # Exemplo 1: Transcrição básica a partir de URL ✔️
-        print("Processando casos de teste...")
-
+        # Example 1: Basic speech-to-text extraction from URL
+        print("Processing test cases...")
         result1 = service.transcribe_from_url(url_en)
-        print(f"Transcrição básica: {result1['data']}")
-
-        # # Exemplo 2: Transcrição a partir de URL com timestamps (áudio em inglês) ✔️
+        print(f"Transcription: {result1['data']}\n")
+        # Example 2: Speech-to-text extraction from URL with timestamps (English audio) ✔️
         result2 = service.transcribe_from_url_with_timestamps(
             url_en,
             language="en"
         )
 
-        print("\nTranscrição com timestamps:")
+        print("\nTranscription with timestamps:")
         for chunk in result2['data']['chunks']:
             print(f"{chunk['timestamp'][0]:.2f}s -> {chunk['timestamp'][1]:.2f}s: {chunk['text']}")
 
-        # Exemplo 3: Transcrição a partir de URL com legendas WebVTT (áudio em espanhol) ✔️
+        # Example 3: Transcription from URL with WebVTT subtitles (Spanish audio)
         result3 = service.transcribe_from_url_with_webvtt(
             url_es,
             language="es"
         )
-        print(f"\nLegendas WebVTT:\n{result3['data']['webvtt']}")
+        print(f"\nTranscription with WebVTT:\n{result3['data']['webvtt']}")
 
-        #Exemplo 4: Transcrição a partir de arquivo local ✔️
+        # Example 4: Transcription from file with WebVTT subtitles (Portuguese audio)
         async with aiofiles.open("audio_pt.mp3", "rb") as file:
             audio_data = await file.read()
-            
-            
             result4 = service.transcribe_from_file_with_webvtt(
                 audio_data,
                 language="pt"
             )
 
-            print(f"\nLegendas WebVTT:\n{result4['data']}")
+            print(f"\nTranscription with WebVTT:\n{result4['data']['webvtt']}")
             
-            # Salvar as legendas em um arquivo .vtt
-           
-            async with aiofiles.open("legendas.vtt", "w") as vtt_file:
+            # Save WebVTT subtitles to file
+            async with aiofiles.open("subtitles.vtt", "w") as vtt_file:
                 await vtt_file.write(result4['data']['webvtt'])
-            print("\nLegendas salvas em 'legendas.vtt'")
+            print("\nWebVTT subtitles saved to 'subtitles.vtt'")
 
-        #Exemplo 5: Uso avançado com opções personalizadas ✔️
+        # Example 5: Advanced usage with custom options
         options = TranscriptionOptions(
             model="onnx-community/whisper-large-v3-turbo_timestamped",
             language="pt",
@@ -64,15 +57,15 @@ async def main():
             url_en,
             options
         )
-        print(f"\nTranscrição com timestamps e WebVTT:\n{result5['data']['webvtt']}")
+        print(f"\nTranscription with timestamps and WebVTT:\n{result5['data']['webvtt']}")
         
-        #Exemplo 6: Obter modelos disponíveis ✔️
+        # Example 6: Get available models
         models = service.get_available_models()
-        print("\nModelos disponíveis:")
+        print("\nAvailable models:")
         for model in models['data']:
             print(f"- {model['model']}")
             
-        # Exemplo 7: Transcrição a partir de um caminho de arquivo ✔️
+        # Example 7: Transcription from file
         with open("audio_pt.mp3", "rb") as f:
             audio_data = f.read()
             
@@ -82,7 +75,7 @@ async def main():
                 filename="audio_pt.mp3"
             )
         
-        print(f"\nTranscrição do arquivo: {result7['data']}")
+        print(f"\nTranscription from file: {result7['data']}")
 
     except Exception as e:
         print(f"Erro: {str(e)}")

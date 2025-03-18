@@ -132,8 +132,7 @@ class WoolBallSpeechToTextService:
             mime_type = "video/x-matroska"
         elif filename.lower().endswith('.avi'):
             mime_type = "video/x-msvideo"
-        else:
-            raise ValueError(f"Unsupported file type: {filename}")
+
         
         multipart_data = MultipartEncoder(
             fields={
