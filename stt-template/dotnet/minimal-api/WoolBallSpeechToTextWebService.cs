@@ -98,7 +98,7 @@ namespace WoolBall.SpeechToText
             var requestUrl = $"{BaseUrl}/speech-to-text";
             
             var formContent = new MultipartFormDataContent();
-            formContent.Add(new ByteArrayContent(audioData), "file", "audio.mp3");
+            formContent.Add(new ByteArrayContent(audioData), "audio", "audio.mp3");
             formContent.Add(new StringContent(options.Model), "model");
             formContent.Add(new StringContent(options.Language), "language");
             formContent.Add(new StringContent(options.ReturnTimestamps.ToString()), "returnTimestamps");
@@ -146,7 +146,7 @@ namespace WoolBall.SpeechToText
         /// <returns>Array of available model names</returns>
         public async Task<string[]> GetAvailableModelsAsync()
         {
-            var response = await _httpClient.GetAsync($"{BaseUrl}/speech-to-text-models");
+            var response = await _httpClient.GetAsync($"{BaseUrl}/models/speech-to-text");
             response.EnsureSuccessStatusCode();
             
             var jsonResponse = await response.Content.ReadAsStringAsync();

@@ -22,7 +22,7 @@ app.use(express.raw({
 }));
 
 // Routes
-app.post('/speech-to-text', upload.single('file'), async (req, res) => {
+app.post('/speech-to-text', upload.single('audio'), async (req, res) => {
     try {
         const { language = 'pt', returnTimestamps = false, webvtt = false, model = 'onnx-community/whisper-large-v3-turbo_timestamped', url } = req.body;
             
@@ -43,7 +43,7 @@ app.post('/speech-to-text', upload.single('file'), async (req, res) => {
                 body: formData
             });
         } else if (req.file) {
-            formData.append('file', new Blob([req.file.buffer]), req.file.originalname);
+            formData.append('audio', new Blob([req.file.buffer]), req.file.originalname);
             response = await fetch(requestUrl, {
                 method: 'POST',
                 headers: HEADERS,
@@ -65,9 +65,9 @@ app.post('/speech-to-text', upload.single('file'), async (req, res) => {
     }
 });
 
-app.get('/speech-to-text-models', async (req, res) => {
+app.get('/models/speech-to-text', async (req, res) => {
     try {
-        const response = await fetch(`${BASE_URL}/speech-to-text-models`, {
+        const response = await fetch(`${BASE_URL}/models/speech-to-text`, {
             headers: HEADERS
         });
 

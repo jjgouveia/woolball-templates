@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
             contentType === 'application/octet-stream'
         ) {
             const fileData = await request.arrayBuffer();
-            formData.append('file', new Blob([fileData]), 'audio.mp3');
+            formData.append('audio', new Blob([fileData]), 'audio.mp3');
             formData.append('model', 'onnx-community/whisper-large-v3-turbo_timestamped');
             formData.append('language', 'pt');
             formData.append('returnTimestamps', 'false');
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
     try {
-        const response = await fetch(`${BASE_URL}/speech-to-text-models`, {
+        const response = await fetch(`${BASE_URL}/models/speech-to-text`, {
             headers: HEADERS
         });
 
