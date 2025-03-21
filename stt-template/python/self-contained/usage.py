@@ -4,7 +4,7 @@ from woolball_speech_to_text import WoolBallSpeechToTextService, TranscriptionOp
 
 
 async def main():
-    service = WoolBallSpeechToTextService(api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjQ4M2I3YWYwLTQxNDQtNGUxZS05YTk2LTg3MmJlZjA1YWIxOSIsIm5iZiI6MTc0MjE1MTAwNiwiZXhwIjoxNzQyMTU0NjA2LCJpYXQiOjE3NDIxNTEwMDZ9.WRGeVaCB-VS1ZmBfZcdjSUoEreLa5-3nxL859c6xvag")
+    service = WoolBallSpeechToTextService(api_key="")
 
     try:
         url_en = "https://cdn.pixabay.com/download/audio/2022/03/10/audio_64f911f820.mp3?filename=hello-what-you-doing-42455.mp3"
