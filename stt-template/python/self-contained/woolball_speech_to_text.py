@@ -158,10 +158,10 @@ class WoolBallSpeechToTextService:
                 if response.text:
                     try:
                         error_data = response.json()
-                        logger.error(f"Erro: {error_data}")
+                        logger.error(f"Error: {error_data}")
                         return error_data
                     except:
-                        logger.error(f"Resposta de erro não-JSON: {response.text}")
+                        logger.error(f"Non-JSON error response: {response.text}")
                         return {"error": f"HTTP {response.status_code}: {response.reason}", "details": response.text}
                 else:
                     return {"error": f"HTTP {response.status_code}: {response.reason}"}
@@ -169,9 +169,9 @@ class WoolBallSpeechToTextService:
             if response.text:
                 return response.json()
             else:
-                return {"warning": "Resposta vazia do servidor"}
+                return {"warning": "Empty server response"}
         except Exception as e:
-            logger.error(f"Erro ao processar resposta: {e}")
+            logger.error(f"Error processing response: {e}")
             return {"error": str(e)}
     
     def transcribe_from_file_with_timestamps(self, 
@@ -215,7 +215,7 @@ class WoolBallSpeechToTextService:
             return_timestamps=True,
             webvtt=True
         )
-        logger.info("Enviando arquivo para transcrição com WebVTT...")
+        logger.info("Sending file for transcription with WebVTT...")
         return self.transcribe_from_file(audio_data, options, filename)
     
     def get_available_models(self) -> Dict[str, Any]:
